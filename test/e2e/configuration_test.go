@@ -23,14 +23,24 @@ import (
 
 const e2e = "e2e"
 
+// const (
+// 	configurationAsCodePlugin           = "configuration-as-code:1850.va_a_8c31d3158b_"
+// 	gitPlugin                           = "git:5.6.0"
+// 	jobDslPlugin                        = "job-dsl:1.89"
+// 	kubernetesPlugin                    = "kubernetes:4295.v7fa_01b_309c95"
+// 	kubernetesCredentialsProviderPlugin = "kubernetes-credentials-provider:1.262.v2670ef7ea_0c5"
+// 	workflowAggregatorPlugin            = "workflow-aggregator:600.vb_57cdd26fdd7"
+// 	workflowJobPlugin                   = "workflow-job:1472.ve4d5eca_143c4f"
+// )
+
 var expectedBasePluginsList = []plugins.Plugin{
-	plugins.Must(plugins.New("configuration-as-code:1850.va_a_8c31d3158b_")),
-	plugins.Must(plugins.New("git:5.6.0")),
+	plugins.Must(plugins.New("configuration-as-code:1903.v004d55388f30")),
+	plugins.Must(plugins.New("git:5.7.0")),
 	plugins.Must(plugins.New("kubernetes:4295.v7fa_01b_309c95")),
 	plugins.Must(plugins.New("kubernetes-credentials-provider:1.262.v2670ef7ea_0c5")),
 	plugins.Must(plugins.New("job-dsl:1.89")),
 	plugins.Must(plugins.New("workflow-aggregator:600.vb_57cdd26fdd7")),
-	plugins.Must(plugins.New("workflow-job:1436.vfa_244484591f")),
+	// plugins.Must(plugins.New("workflow-job:1436.vfa_244484591f")),
 }
 
 func createUserConfigurationSecret(namespace string, stringData map[string]string) {

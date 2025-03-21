@@ -24,11 +24,26 @@ diag() {
 }
 
 #bats test_tags=phase:helm,scenario:vanilla
+@test "1.2a Helm: clean" {
+  ${HELM} status default || skip "Helm release 'default' doesn't exist"
+
+  run ${HELM} uninstall default --wait
+  assert_success
+  # Wait for the complete removal
+  sleep 10
+
+  run verify "there is 0 pvc named 'jenkins backup'"
+  assert_success
+
+  rm "chart/jenkins-operator/deploy.tmp"
+}
+
+#bats test_tags=phase:helm,scenario:vanilla
 @test "1.2  Helm: vanilla install helm chart latest tagged version" {
   run echo ${DETIK_CLIENT_NAMESPACE}
   run echo ${OPERATOR_IMAGE}
   ${HELM} status default && skip "Helm release 'default' already exists"
-  run ${HELM} install default \
+  run ${HELM} upgrade --install default \
     --set jenkins.namespace=${DETIK_CLIENT_NAMESPACE} \
     --set namespace=${DETIK_CLIENT_NAMESPACE} \
     --set operator.image=${OPERATOR_IMAGE} \

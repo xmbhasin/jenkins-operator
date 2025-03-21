@@ -291,11 +291,8 @@ func (in *SecurityValidator) download() error {
 
 	defer httpResponseCloser(response)
 
-	if err := out.Close(); err != nil {
-		jenkinslog.V(log.VDebug).Info("Failed to send file", "error", err.Error())
-	}
-
 	_, err = io.Copy(out, response.Body)
+
 	return err
 }
 

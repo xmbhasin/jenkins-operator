@@ -139,13 +139,17 @@ func (bar *BackupAndRestore) Restore(jenkinsClient jenkinsclient.Jenkins) error 
 
 	podName := resources.GetJenkinsMasterPodName(jenkins)
 	var backupNumber = jenkins.Status.LastBackup
+	bar.logger.V(log.VDebug).Info(fmt.Sprintf("podName=%v, containerName=%v", podName, jenkins.Spec.Restore.ContainerName))
 
 	if jenkins.Spec.Restore.GetLatestAction.Exec != nil {
 		command := jenkins.Spec.Restore.GetLatestAction.Exec.Command
-		backupNumberRaw, _, err := bar.Exec(podName, jenkins.Spec.Restore.ContainerName, command)
+
+		backupNumberRaw, stdErr, err := bar.Exec(podName, jenkins.Spec.Restore.ContainerName, command)
 		if err != nil {
+
 			return err
 		}
+		bar.logger.V(log.VDebug).Info(fmt.Sprintf("stdOut=%v, stdErr=%v", backupNumberRaw.String(), stdErr.String()))
 
 		backupNumberString := strings.TrimSuffix(backupNumberRaw.String(), "\n")
 		if backupNumberString == noBackup {
